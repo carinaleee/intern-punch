@@ -808,7 +808,7 @@ async function doSetHours() {
     toast('確認時數已儲存');
     closeModal();
     const hrh = await api('getHrHours', {});
-    state.hrHours = hrh.hrHours || [];
+    state.hrHours = (hrh.hrHours || []).map(r => ({ ...r, month: normDate(r.month).slice(0, 7) }));
     render();
   } catch (e) { toast(e.message, 'error'); }
 }
