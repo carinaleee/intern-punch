@@ -205,6 +205,17 @@ let state = {
 // ──────────────────────── Utils ────────────────────────
 function today() { return new Date().toISOString().slice(0, 10); }
 function thisMonth() { return new Date().toISOString().slice(0, 7); }
+function normDate(val) {
+  if (!val) return '';
+  const s = String(val).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  if (/^\d{4}\/\d{2}\/\d{2}/.test(s)) return s.slice(0, 10).replace(/\//g, '-');
+  const d = new Date(s);
+  if (!isNaN(d)) {
+    return d.toLocaleDateString('zh-TW', { timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+  }
+  return s.slice(0, 10);
+}
 function fmt(iso) { if (!iso) return '—'; return new Date(iso).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' }); }
 function fmtDate(iso) { if (!iso) return '—'; return new Date(iso + 'T00:00').toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' }); }
 function fmtDateTime(iso) { if (!iso) return '—'; const d = new Date(iso); return d.toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' }) + ' ' + d.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' }); }
@@ -316,7 +327,7 @@ async function loadInitialData() {
       api('getMakeupRequests', { userId: state.user.id }),
       api('getHrHours', { userId: state.user.id }),
     ]);
-    state.records = rec.records || [];
+    state.records = (rec.records || []).map(r => ({ ...r, date: normDate(r.date) }));
     state.makeupRequests = mkp.requests || [];
     state.hrHours = hrh.hrHours || [];
   } else {
@@ -331,7 +342,7 @@ async function loadHRData() {
     api('getHrHours', {}),
     api('getUsers', {}),
   ]);
-  state.records = rec.records || [];
+  state.records = (rec.records || []).map(r => ({ ...r, date: normDate(r.date) }));
   state.makeupRequests = mkp.requests || [];
   state.hrHours = hrh.hrHours || [];
   state.users = (usr.users || []).filter(u => u.role === 'intern');
@@ -357,7 +368,7 @@ function renderTopbar() {
 function renderIntern() {
   const todayStr = today();
   const monthStr = thisMonth();
-  const todayRec = state.records.find(r => r.date === todayStr);
+  const todayRec = state.records.find(r => normDate(r.date) === todayStr);
   const hasPunchedIn = !!todayRec?.inTime;
   const hasPunchedOut = !!todayRec?.outTime;
   const monthRec = state.records.filter(r => r.date?.startsWith(monthStr) && r.inTime);
