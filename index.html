@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>凱菲實習生打卡❤️</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface2: #f1f0ee;
+  --border: rgba(0,0,0,0.10);
+  --border-mid: rgba(0,0,0,0.18);
+  --text: #1a1a18;
+  --text2: #5c5c58;
+  --text3: #9c9c98;
+  --blue: #185FA5;
+  --blue-bg: #E6F1FB;
+  --blue-dark: #0C447C;
+  --green: #3B6D11;
+  --green-bg: #EAF3DE;
+  --red: #A32D2D;
+  --red-bg: #FCEBEB;
+  --amber: #854F0B;
+  --amber-bg: #FAEEDA;
+  --radius: 10px;
+  --radius-sm: 7px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 0 0 0.5px rgba(0,0,0,0.08);
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; line-height: 1.5; }
+
+/* ── Layout ── */
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.topbar { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.topbar-brand { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; }
+.topbar-brand i { font-size: 20px; color: var(--blue); }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.user-chip { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text2); }
+.main { flex: 1; padding: 1.5rem; max-width: 900px; margin: 0 auto; width: 100%; }
+
+/* ── Cards ── */
+.card { background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); }
+.card-body { padding: 1.25rem; }
+.card-header { padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-header-title { font-weight: 600; font-size: 14px; }
+
+/* ── Buttons ── */
+.btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: var(--radius-sm); border: 0.5px solid var(--border-mid); background: var(--surface); color: var(--text); font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.12s, transform 0.08s; white-space: nowrap; }
+.btn:hover { background: var(--surface2); }
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+.btn-primary:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
+.btn-success { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-danger { background: var(--red); color: #fff; border-color: var(--red); }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn-icon { padding: 6px; border-radius: var(--radius-sm); }
+
+/* ── Forms ── */
+.field { margin-bottom: 14px; }
+.field:last-child { margin-bottom: 0; }
+label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 4px; font-weight: 500; }
+input[type=text], input[type=password], input[type=date], input[type=time], input[type=month], input[type=number], select, textarea {
+  width: 100%; padding: 8px 10px; border: 0.5px solid var(--border-mid);
+  border-radius: var(--radius-sm); background: var(--surface); color: var(--text);
+  font-size: 14px; font-family: inherit; transition: border-color 0.12s, box-shadow 0.12s;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 2.5px rgba(24,95,165,0.14); }
+textarea { resize: vertical; min-height: 72px; }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 2px; background: var(--surface2); padding: 3px; border-radius: var(--radius-sm); margin-bottom: 1.25rem; }
+.tab-btn { flex: 1; padding: 7px 6px; border: none; background: none; border-radius: 5px; font-size: 13px; color: var(--text2); cursor: pointer; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 5px; transition: all 0.12s; position: relative; }
+.tab-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.tab-dot { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+
+/* ── Table ── */
+.table-wrap { overflow-x: auto; border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th { padding: 9px 12px; text-align: left; color: var(--text2); font-weight: 500; font-size: 12px; border-bottom: 0.5px solid var(--border); background: var(--surface); white-space: nowrap; }
+tbody td { padding: 9px 12px; border-bottom: 0.5px solid var(--border); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: #fafaf9; }
+
+/* ── Badge ── */
+.badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 99px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+.badge-blue { background: var(--blue-bg); color: var(--blue); }
+.badge-green { background: var(--green-bg); color: var(--green); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); }
+.badge-gray { background: var(--surface2); color: var(--text2); }
+
+/* ── Avatar ── */
+.avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--blue-bg); color: var(--blue); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+.avatar-lg { width: 44px; height: 44px; font-size: 15px; }
+
+/* ── Stat cards ── */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.25rem; }
+.stat { background: var(--surface2); border-radius: var(--radius-sm); padding: 12px 14px; }
+.stat-label { font-size: 11px; color: var(--text2); font-weight: 500; }
+.stat-value { font-size: 22px; font-weight: 600; margin-top: 2px; }
+
+/* ── Punch buttons ── */
+.punch-area { display: flex; justify-content: center; gap: 2rem; padding: 1rem 0 1.5rem; }
+.punch-btn { width: 110px; height: 110px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 13px; font-weight: 600; cursor: pointer; border: 2px solid; transition: transform 0.1s, box-shadow 0.1s; }
+.punch-btn:active:not(:disabled) { transform: scale(0.95); }
+.punch-btn:hover:not(:disabled) { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+.punch-btn i { font-size: 26px; }
+.punch-in { border-color: var(--green); color: var(--green); background: var(--green-bg); }
+.punch-out { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+.punch-btn:disabled { border-color: var(--border); color: var(--text3); background: var(--surface2); cursor: not-allowed; box-shadow: none; }
+.punch-sub { font-size: 10px; font-weight: 400; color: inherit; opacity: 0.75; }
+
+/* ── Toast ── */
+#toast-wrap { position: fixed; top: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: 6px; pointer-events: none; }
+.toast { padding: 9px 14px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; box-shadow: 0 4px 16px rgba(0,0,0,0.12); animation: toastIn 0.2s ease; pointer-events: auto; display: flex; align-items: center; gap: 7px; max-width: 280px; }
+.toast-success { background: var(--green-bg); color: var(--green); }
+.toast-error { background: var(--red-bg); color: var(--red); }
+.toast-info { background: var(--blue-bg); color: var(--blue); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
+
+/* ── Modal ── */
+.modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; z-index: 800; padding: 1rem; }
+.modal { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.18); }
+.modal-header { padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.modal-title { font-weight: 600; font-size: 15px; }
+.modal-body { padding: 1.25rem; }
+.modal-footer { padding: 1rem 1.25rem; border-top: 0.5px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+
+/* ── Clock ── */
+.clock-block { text-align: center; padding: 1.25rem 0 0.5rem; }
+.clock-time { font-size: 38px; font-weight: 700; letter-spacing: 0.04em; }
+.clock-date { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+/* ── Login ── */
+.login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg); padding: 1rem; }
+.login-card { width: 100%; max-width: 360px; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow); padding: 2rem; }
+.login-logo { text-align: center; margin-bottom: 1.5rem; }
+.login-logo i { font-size: 36px; color: var(--blue); }
+.login-logo h1 { font-size: 18px; font-weight: 700; margin-top: 8px; }
+.login-logo p { font-size: 13px; color: var(--text2); margin-top: 3px; }
+
+/* ── Setup banner ── */
+.setup-banner { background: var(--amber-bg); border: 0.5px solid #EF9F27; border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; color: var(--amber); display: flex; align-items: flex-start; gap: 8px; margin-bottom: 1rem; }
+
+/* ── Empty state ── */
+.empty { text-align: center; padding: 2.5rem 1rem; color: var(--text3); }
+.empty i { font-size: 36px; display: block; margin-bottom: 8px; }
+.empty p { font-size: 13px; }
+
+/* ── Loading ── */
+.loading { text-align: center; padding: 2rem; color: var(--text2); }
+.spinner { width: 24px; height: 24px; border: 2.5px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; margin-bottom: 8px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Misc ── */
+.row { display: flex; gap: 10px; align-items: flex-end; }
+.row .field { flex: 1; }
+.section-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.divider { border: none; border-top: 0.5px solid var(--border); margin: 1rem 0; }
+.inline-flex { display: inline-flex; align-items: center; gap: 6px; }
+.alert-info { background: var(--blue-bg); color: var(--blue-dark); padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ CONFIG ═══════════════════════ -->
+<script>
+// ★ 請將下方替換為你的 Google Apps Script 部署網址 ★
+const API_URL = 'https://script.google.com/macros/s/AKfycbzIUBn8RN6a_BUZTRCQ-ojm6b5Qye8B_UKuwexb6IbMTKjVi2tg3hAasOh_VRB3R6WZyg/exec';
+</script>
+
+<!-- Toast container -->
+<div id="toast-wrap"></div>
+
+<!-- ═══════════════════════ MAIN APP ═══════════════════════ -->
+<div id="app"></div>
+
+<script>
+// ──────────────────────── State ────────────────────────
+let state = {
+  user: null,
+  view: 'login', // login | intern | hr
+  internTab: 'punch',
+  hrTab: 'records',
+  // data
+  records: [],
+  makeupRequests: [],
+  hrHours: [],
+  users: [],
+  // ui
+  loading: false,
+  clock: new Date(),
+  // filter
+  filterUserId: 'all',
+  filterMonth: thisMonth(),
+  // modal
+  modal: null, // null | 'makeup' | 'addUser' | 'editHours' | 'editPassword'
+  modalData: {},
+};
+
+// ──────────────────────── Utils ────────────────────────
+function today() { return new Date().toISOString().slice(0, 10); }
+function thisMonth() { return new Date().toISOString().slice(0, 7); }
+function fmt(iso) { if (!iso) return '—'; return new Date(iso).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' }); }
+function fmtDate(iso) { if (!iso) return '—'; return new Date(iso + 'T00:00').toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' }); }
+function fmtDateTime(iso) { if (!iso) return '—'; const d = new Date(iso); return d.toLocaleDateString('zh-TW', { month: '2-digit', day: '2-digit' }) + ' ' + d.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' }); }
+function calcHours(inT, outT) { if (!inT || !outT) return null; return (new Date(outT) - new Date(inT)) / 3600000; }
+function initials(name) { return name ? name.slice(0, 2) : '?'; }
+
+// ──────────────────────── API ────────────────────────
+// 統一用 GET + URL 參數，避免 CORS preflight 問題
+// Apps Script 的 GET 請求天然允許跨域
+async function api(action, params = {}) {
+  if (API_URL === 'YOUR_APPS_SCRIPT_DEPLOY_URL') {
+    throw new Error('尚未設定 API 網址，請更新 index.html 頂部的 API_URL');
+  }
+  const url = new URL(API_URL);
+  url.searchParams.set('action', action);
+  Object.entries(params).forEach(([k, v]) => {
+    if (v !== undefined && v !== null) url.searchParams.set(k, v);
+  });
+  const res = await fetch(url.toString(), {
+    method: 'GET',
+    redirect: 'follow', // Apps Script 部署會 302 redirect，需要 follow
+  });
+  const data = await res.json();
+  if (!data.success) throw new Error(data.error || '操作失敗');
+  return data;
+}
+
+// ──────────────────────── Toast ────────────────────────
+function toast(msg, type = 'success') {
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  const icons = { success: 'ti-check', error: 'ti-alert-circle', info: 'ti-info-circle' };
+  t.className = `toast toast-${type}`;
+  t.innerHTML = `<i class="ti ${icons[type] || icons.info}" aria-hidden="true"></i>${msg}`;
+  wrap.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+// ──────────────────────── Render helpers ────────────────────────
+function badge(text, type) { return `<span class="badge badge-${type}">${text}</span>`; }
+function statusBadge(status) {
+  const map = { approved: ['可可!', 'green'], rejected: ['打咩!', 'red'], pending: ['還在看!', 'amber'] };
+  const [label, type] = map[status] || ['未知', 'gray'];
+  return badge(label, type);
+}
+function loading() { return `<div class="loading"><div class="spinner"></div><div>載入中...</div></div>`; }
+function empty(icon, msg) { return `<div class="empty"><i class="ti ${icon}" aria-hidden></i><p>${msg}</p></div>`; }
+
+// ──────────────────────── Clock ────────────────────────
+setInterval(() => {
+  state.clock = new Date();
+  const el = document.getElementById('clock-time');
+  const el2 = document.getElementById('clock-date');
+  if (el) el.textContent = state.clock.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  if (el2) el2.textContent = state.clock.toLocaleDateString('zh-TW', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}, 1000);
+
+// ──────────────────────── Login ────────────────────────
+function renderLogin() {
+  const noApi = API_URL === 'YOUR_APPS_SCRIPT_DEPLOY_URL';
+  document.getElementById('app').innerHTML = `
+    <div class="login-wrap">
+      <div class="login-card">
+        <div class="login-logo">
+          <i class="ti ti-clipboard-check" aria-hidden></i>
+          <h1>⏰凱菲實習打卡⏰</h1>
+          <p>!!請輸入帳號登入 請準時!!!</p>
+        </div>
+        ${noApi ? `<div class="setup-banner"><i class="ti ti-alert-triangle" aria-hidden></i><div><strong>尚未設定 API 網址</strong><br>請在 HTML 檔案頂部設定你的 Google Apps Script 網址。<br>詳見 <code>SETUP.md</code> 說明文件。</div></div>` : ''}
+        <div id="login-error"></div>
+        <div class="field"><label>帳號</label><input type="text" id="ln-user" placeholder="輸入帳號" autocomplete="username"></div>
+        <div class="field"><label>密碼</label><input type="password" id="ln-pass" placeholder="輸入密碼" autocomplete="current-password"></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="doLogin()" ${noApi ? 'disabled' : ''}>
+          <i class="ti ti-login" aria-hidden></i>登入
+        </button>
+      </div>
+    </div>`;
+  document.getElementById('ln-pass')?.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+}
+
+async function doLogin() {
+  const username = document.getElementById('ln-user').value.trim();
+  const password = document.getElementById('ln-pass').value;
+  const errEl = document.getElementById('login-error');
+  if (!username || !password) { errEl.innerHTML = `<div class="alert-info" style="background:var(--red-bg);color:var(--red);margin-bottom:10px">請填寫帳號與密碼</div>`; return; }
+  try {
+    const data = await api('login', { username, password });
+    state.user = data.user;
+    state.view = data.user.role === 'hr' ? 'hr' : 'intern';
+    await loadInitialData();
+    render();
+  } catch (err) {
+    errEl.innerHTML = `<div class="alert-info" style="background:var(--red-bg);color:var(--red);margin-bottom:10px">${err.message}</div>`;
+  }
+}
+
+function doLogout() {
+  state.user = null;
+  state.view = 'login';
+  state.records = [];
+  render();
+}
+
+// ──────────────────────── Data loading ────────────────────────
+async function loadInitialData() {
+  if (state.user.role === 'intern') {
+    const [rec, mkp, hrh] = await Promise.all([
+      api('getRecords', { userId: state.user.id }),
+      api('getMakeupRequests', { userId: state.user.id }),
+      api('getHrHours', { userId: state.user.id }),
+    ]);
+    state.records = rec.records || [];
+    state.makeupRequests = mkp.requests || [];
+    state.hrHours = hrh.hrHours || [];
+  } else {
+    await loadHRData();
+  }
+}
+
+async function loadHRData() {
+  const [rec, mkp, hrh, usr] = await Promise.all([
+    api('getRecords', { month: state.filterMonth }),
+    api('getMakeupRequests', {}),
+    api('getHrHours', {}),
+    api('getUsers', {}),
+  ]);
+  state.records = rec.records || [];
+  state.makeupRequests = mkp.requests || [];
+  state.hrHours = hrh.hrHours || [];
+  state.users = (usr.users || []).filter(u => u.role === 'intern');
+}
+
+// ──────────────────────── Topbar ────────────────────────
+function renderTopbar() {
+  return `
+    <div class="topbar">
+      <div class="topbar-brand"><i class="ti ti-clipboard-check" aria-hidden></i>打卡系統</div>
+      <div class="topbar-right">
+        <div class="user-chip">
+          <div class="avatar">${initials(state.user.name)}</div>
+          <span>${state.user.name}</span>
+          <span class="badge badge-${state.user.role === 'hr' ? 'amber' : 'blue'}">${state.user.role === 'hr' ? 'HR' : '實習生'}</span>
+        </div>
+        <button class="btn btn-sm" onclick="doLogout()"><i class="ti ti-logout" aria-hidden></i>登出</button>
+      </div>
+    </div>`;
+}
+
+// ──────────────────────── Intern View ────────────────────────
+function renderIntern() {
+  const todayStr = today();
+  const monthStr = thisMonth();
+  const todayRec = state.records.find(r => r.date === todayStr);
+  const hasPunchedIn = !!todayRec?.inTime;
+  const hasPunchedOut = !!todayRec?.outTime;
+  const monthRec = state.records.filter(r => r.date?.startsWith(monthStr) && r.inTime);
+  const hrHourRow = state.hrHours.find(r => r.month === monthStr);
+  const pendingMkp = state.makeupRequests.filter(r => r.status === 'pending').length;
+
+  const tabs = [
+    ['punch', '打卡', 'ti-clock', 0],
+    ['records', '紀錄', 'ti-list', 0],
+    ['makeup', '補打卡', 'ti-edit', pendingMkp],
+  ];
+
+  return `
+    <div class="tabs">
+      ${tabs.map(([k, n, ic, dot]) => `
+        <button class="tab-btn ${state.internTab === k ? 'active' : ''}" onclick="setInternTab('${k}')">
+          <i class="ti ${ic}" aria-hidden></i>${n}
+          ${dot ? '<span class="tab-dot"></span>' : ''}
+        </button>`).join('')}
+    </div>
+
+    ${state.internTab === 'punch' ? `
+      <div class="card">
+        <div class="clock-block">
+          <div class="clock-time" id="clock-time">${state.clock.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
+          <div class="clock-date" id="clock-date">${state.clock.toLocaleDateString('zh-TW', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+        </div>
+        <div class="punch-area">
+          <button class="punch-btn ${hasPunchedIn ? 'punch-btn punch-in' : 'punch-in'}" ${hasPunchedIn ? 'disabled' : ''} onclick="doPunchIn()">
+            <i class="ti ti-door-enter" aria-hidden></i>
+            打卡上班
+            ${hasPunchedIn ? `<span class="punch-sub">${fmt(todayRec.inTime)}</span>` : ''}
+          </button>
+          <button class="punch-btn ${hasPunchedOut ? 'punch-btn punch-out' : 'punch-out'}" ${!hasPunchedIn || hasPunchedOut ? 'disabled' : ''} onclick="doPunchOut()">
+            <i class="ti ti-door-exit" aria-hidden></i>
+            打卡下班
+            ${hasPunchedOut ? `<span class="punch-sub">${fmt(todayRec.outTime)}</span>` : ''}
+          </button>
+        </div>
+        <div class="card-body" style="padding-top:0">
+          <div class="stat-grid">
+            <div class="stat">
+              <div class="stat-label">本月到班天數</div>
+              <div class="stat-value">${monthRec.length}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">HR 確認時數</div>
+              <div class="stat-value" style="color:var(--blue)">${hrHourRow ? hrHourRow.confirmedHours + 'h' : '—'}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
+    ${state.internTab === 'records' ? `
+      <div class="card">
+        <div class="card-header"><span class="card-header-title">打卡紀錄</span></div>
+        ${state.records.length === 0 ? empty('ti-inbox', '尚無打卡紀錄') : `
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>日期</th><th>上班時間</th><th>下班時間</th><th>狀態</th></tr></thead>
+            <tbody>
+              ${[...state.records].sort((a,b)=>String(b.date).localeCompare(String(a.date))).map(r => `
+              <tr>
+                <td>${fmtDate(r.date)}</td>
+                <td>${r.inTime ? fmt(r.inTime) : '—'}</td>
+                <td>${r.outTime ? fmt(r.outTime) : '—'}</td>
+                <td>${r.isMakeup == 'true' || r.isMakeup === true ? badge('補打', 'amber') : r.outTime ? badge('完成', 'green') : r.inTime ? badge('未下班', 'blue') : badge('缺席', 'gray')}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`}
+      </div>
+    ` : ''}
+
+    ${state.internTab === 'makeup' ? `
+      <div class="card">
+        <div class="card-header">
+          <span class="card-header-title">補打卡申請</span>
+          <button class="btn btn-sm btn-primary" onclick="openModal('makeup')"><i class="ti ti-plus" aria-hidden></i>新增申請</button>
+        </div>
+        ${state.makeupRequests.length === 0 ? empty('ti-file-off', '尚無申請紀錄') : `
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>補打日期</th><th>上班</th><th>下班</th><th>原因</th><th>狀態</th></tr></thead>
+            <tbody>
+              ${state.makeupRequests.map(r => `
+              <tr>
+                <td>${fmtDate(r.date)}</td>
+                <td>${r.inTime || '—'}</td>
+                <td>${r.outTime || '—'}</td>
+                <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.reason || '—'}</td>
+                <td>${statusBadge(r.status)}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`}
+      </div>
+    ` : ''}
+  `;
+}
+
+// ──────────────────────── HR View ────────────────────────
+function renderHR() {
+  const pendingCount = state.makeupRequests.filter(r => r.status === 'pending').length;
+  const tabs = [
+    ['records', '打卡紀錄', 'ti-table', 0],
+    ['requests', '補打申請', 'ti-edit', pendingCount],
+    ['summary', '月份總覽', 'ti-chart-bar', 0],
+    ['users', '帳號管理', 'ti-users', 0],
+  ];
+
+  return `
+    <div class="tabs">
+      ${tabs.map(([k, n, ic, dot]) => `
+        <button class="tab-btn ${state.hrTab === k ? 'active' : ''}" onclick="setHrTab('${k}')">
+          <i class="ti ${ic}" aria-hidden></i>${n}
+          ${dot ? '<span class="tab-dot"></span>' : ''}
+        </button>`).join('')}
+    </div>
+    ${renderHRTab()}
+  `;
+}
+
+function renderHRTab() {
+  if (state.hrTab === 'records') return renderHRRecords();
+  if (state.hrTab === 'requests') return renderHRRequests();
+  if (state.hrTab === 'summary') return renderHRSummary();
+  if (state.hrTab === 'users') return renderHRUsers();
+  return '';
+}
+
+function renderHRRecords() {
+  let filtered = state.records;
+  if (state.filterUserId !== 'all') filtered = filtered.filter(r => r.userId === state.filterUserId);
+
+  return `
+    <div class="card">
+      <div class="card-header">
+        <span class="card-header-title">打卡紀錄</span>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <select style="width:auto" onchange="state.filterUserId=this.value;render()">
+            <option value="all" ${state.filterUserId==='all'?'selected':''}>所有實習生</option>
+            ${state.users.map(u=>`<option value="${u.id}" ${state.filterUserId===u.id?'selected':''}>${u.name}</option>`).join('')}
+          </select>
+          <input type="month" style="width:auto" value="${state.filterMonth}" onchange="state.filterMonth=this.value;reloadHRData()">
+          <button class="btn btn-sm" onclick="exportExcel()"><i class="ti ti-download" aria-hidden></i>匯出 Excel</button>
+        </div>
+      </div>
+      ${filtered.length === 0 ? empty('ti-inbox', '無符合紀錄') : `
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>實習生</th><th>日期</th><th>打卡上班</th><th>打卡下班</th><th>在辦公室時數</th><th>HR確認時數</th><th>操作</th></tr></thead>
+          <tbody>
+            ${filtered.map(r => {
+              const hrs = calcHours(r.inTime, r.outTime);
+              const hrRow = state.hrHours.find(h => h.userId === r.userId && h.month === String(r.date).slice(0,7));
+              return `<tr>
+                <td><div class="inline-flex"><div class="avatar">${initials(r.userName)}</div>${r.userName}</div></td>
+                <td>${fmtDate(r.date)}${r.isMakeup=='true'||r.isMakeup===true?` ${badge('補打','amber')}`:'.'}</td>
+                <td>${r.inTime ? fmt(r.inTime) : '—'}</td>
+                <td>${r.outTime ? fmt(r.outTime) : '—'}</td>
+                <td>${hrs !== null ? hrs.toFixed(1) + 'h' : '—'}</td>
+                <td>${hrRow ? `<strong style="color:var(--blue)">${hrRow.confirmedHours}h</strong>` : '—'}</td>
+                <td><button class="btn btn-sm btn-icon" title="設定確認時數" onclick="openEditHours('${r.userId}','${r.userName}','${String(r.date).slice(0,7)}')"><i class="ti ti-pencil" aria-hidden></i></button></td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>`;
+}
+
+function renderHRRequests() {
+  const sorted = [...state.makeupRequests].sort((a,b)=>String(b.requestTime).localeCompare(String(a.requestTime)));
+  return `
+    <div class="card">
+      <div class="card-header"><span class="card-header-title">補打卡申請</span></div>
+      ${sorted.length === 0 ? empty('ti-checks', '目前無申請') : `
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>實習生</th><th>補打日期</th><th>上班</th><th>下班</th><th>原因</th><th>申請時間</th><th>狀態</th><th>操作</th></tr></thead>
+          <tbody>
+            ${sorted.map(r => `
+            <tr>
+              <td>${r.userName}</td>
+              <td>${fmtDate(r.date)}</td>
+              <td>${r.inTime || '—'}</td>
+              <td>${r.outTime || '—'}</td>
+              <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.reason || '—'}</td>
+              <td style="white-space:nowrap">${fmtDateTime(r.requestTime)}</td>
+              <td>${statusBadge(r.status)}</td>
+              <td>${r.status === 'pending' ? `
+                <div style="display:flex;gap:4px">
+                  <button class="btn btn-sm btn-success" onclick="doReview('${r.id}','approve')"><i class="ti ti-check" aria-hidden></i>核准</button>
+                  <button class="btn btn-sm btn-danger" onclick="doReview('${r.id}','reject')"><i class="ti ti-x" aria-hidden></i>拒絕</button>
+                </div>` : '—'}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>`;
+}
+
+function renderHRSummary() {
+  const month = state.filterMonth;
+  return `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem">
+      <input type="month" style="width:auto" value="${month}" onchange="state.filterMonth=this.value;reloadHRData()">
+      <span style="font-size:13px;color:var(--text2)">月份到班總覽</span>
+      <button class="btn btn-sm" style="margin-left:auto" onclick="exportExcel()"><i class="ti ti-download" aria-hidden></i>匯出 Excel</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+      ${state.users.map(u => {
+        const days = state.records.filter(r => r.userId === u.id && String(r.date).startsWith(month) && r.inTime).length;
+        const hrRow = state.hrHours.find(r => r.userId === u.id && r.month === month);
+        return `<div class="card">
+          <div class="card-body">
+            <div class="inline-flex" style="margin-bottom:12px"><div class="avatar avatar-lg">${initials(u.name)}</div><strong>${u.name}</strong></div>
+            <div class="stat-grid">
+              <div class="stat"><div class="stat-label">到班天數</div><div class="stat-value">${days}</div></div>
+              <div class="stat"><div class="stat-label">確認時數</div><div class="stat-value" style="color:var(--blue)">${hrRow ? hrRow.confirmedHours + 'h' : '—'}</div></div>
+            </div>
+            <button class="btn btn-sm" style="width:100%;justify-content:center;margin-top:8px" onclick="openEditHours('${u.id}','${u.name}','${month}')">
+              <i class="ti ti-pencil" aria-hidden></i>設定確認時數
+            </button>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="alert-info" style="margin-top:1rem">
+      <i class="ti ti-info-circle" aria-hidden></i> 確認時數為 HR 輸入的實際工作時數，建議扣除午休 1 小時後填入。
+    </div>`;
+}
+
+function renderHRUsers() {
+  return `
+    <div class="card">
+      <div class="card-header">
+        <span class="card-header-title">帳號管理</span>
+        <button class="btn btn-sm btn-primary" onclick="openModal('addUser')"><i class="ti ti-user-plus" aria-hidden></i>新增實習生</button>
+      </div>
+      ${state.users.length === 0 ? empty('ti-users', '尚無實習生帳號') : `
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>姓名</th><th>帳號</th><th>建立時間</th><th>操作</th></tr></thead>
+          <tbody>
+            ${state.users.map(u => `
+            <tr>
+              <td><div class="inline-flex"><div class="avatar">${initials(u.name)}</div>${u.name}</div></td>
+              <td><code>${u.username}</code></td>
+              <td>${fmtDateTime(u.createdAt)}</td>
+              <td>
+                <div style="display:flex;gap:4px">
+                  <button class="btn btn-sm" onclick="openEditPassword('${u.id}','${u.name}')"><i class="ti ti-key" aria-hidden></i>改密碼</button>
+                  <button class="btn btn-sm btn-danger" onclick="doDeleteUser('${u.id}','${u.name}')"><i class="ti ti-trash" aria-hidden></i>刪除</button>
+                </div>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>`;
+}
+
+// ──────────────────────── Modals ────────────────────────
+function renderModal() {
+  if (!state.modal) return '';
+  const m = state.modal;
+  const d = state.modalData;
+
+  if (m === 'makeup') return `
+    <div class="modal-mask" onclick="e=>e.target===this&&closeModal()">
+      <div class="modal">
+        <div class="modal-header"><span class="modal-title">申請補打卡</span><button class="btn btn-sm btn-icon" onclick="closeModal()"><i class="ti ti-x" aria-hidden></i></button></div>
+        <div class="modal-body">
+          <div class="field"><label>補打日期</label><input type="date" id="m-date" max="${today()}" value="${today()}"></div>
+          <div class="row">
+            <div class="field"><label>補打上班時間</label><input type="time" id="m-in" value="09:00"></div>
+            <div class="field"><label>補打下班時間</label><input type="time" id="m-out" value="18:00"></div>
+          </div>
+          <div class="field"><label>原因說明 *</label><textarea id="m-reason" placeholder="請說明無法打卡的原因"></textarea></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" onclick="closeModal()">取消</button>
+          <button class="btn btn-primary" onclick="doSubmitMakeup()"><i class="ti ti-send" aria-hidden></i>送出申請</button>
+        </div>
+      </div>
+    </div>`;
+
+  if (m === 'addUser') return `
+    <div class="modal-mask">
+      <div class="modal">
+        <div class="modal-header"><span class="modal-title">新增實習生帳號</span><button class="btn btn-sm btn-icon" onclick="closeModal()"><i class="ti ti-x" aria-hidden></i></button></div>
+        <div class="modal-body">
+          <div class="field"><label>姓名 *</label><input type="text" id="u-name" placeholder="例：王小明"></div>
+          <div class="field"><label>帳號 *</label><input type="text" id="u-user" placeholder="例：ming（英數字）"></div>
+          <div class="field"><label>密碼 *</label><input type="password" id="u-pass" placeholder="至少 6 個字元"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" onclick="closeModal()">取消</button>
+          <button class="btn btn-primary" onclick="doAddUser()"><i class="ti ti-user-plus" aria-hidden></i>建立帳號</button>
+        </div>
+      </div>
+    </div>`;
+
+  if (m === 'editHours') return `
+    <div class="modal-mask">
+      <div class="modal">
+        <div class="modal-header"><span class="modal-title">設定確認時數</span><button class="btn btn-sm btn-icon" onclick="closeModal()"><i class="ti ti-x" aria-hidden></i></button></div>
+        <div class="modal-body">
+          <p style="font-size:13px;color:var(--text2);margin-bottom:12px">${d.userName} — ${d.month}<br><span style="font-size:12px">請填入扣除午休後的實際工作時數</span></p>
+          <div class="field"><label>確認時數（小時）</label><input type="number" id="h-hours" min="0" step="0.5" value="${d.current || ''}" placeholder="例：40"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" onclick="closeModal()">取消</button>
+          <button class="btn btn-primary" onclick="doSetHours()"><i class="ti ti-device-floppy" aria-hidden></i>儲存</button>
+        </div>
+      </div>
+    </div>`;
+
+  if (m === 'editPassword') return `
+    <div class="modal-mask">
+      <div class="modal">
+        <div class="modal-header"><span class="modal-title">修改密碼</span><button class="btn btn-sm btn-icon" onclick="closeModal()"><i class="ti ti-x" aria-hidden></i></button></div>
+        <div class="modal-body">
+          <p style="font-size:13px;color:var(--text2);margin-bottom:12px">為 <strong>${d.userName}</strong> 設定新密碼</p>
+          <div class="field"><label>新密碼 *</label><input type="password" id="p-pass" placeholder="至少 6 個字元"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" onclick="closeModal()">取消</button>
+          <button class="btn btn-primary" onclick="doUpdatePassword()"><i class="ti ti-key" aria-hidden></i>更新密碼</button>
+        </div>
+      </div>
+    </div>`;
+
+  return '';
+}
+
+// ──────────────────────── Actions ────────────────────────
+async function doPunchIn() {
+  try {
+    const data = await api('punchIn', { userId: state.user.id, userName: state.user.name, date: today() });
+    state.records = state.records.filter(r => r.date !== today());
+    state.records.push({ userId: state.user.id, userName: state.user.name, date: today(), inTime: data.inTime, outTime: null, isMakeup: false });
+    toast('打卡上班成功 ✓<br>上班加加油💪');
+    render();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function doPunchOut() {
+  try {
+    const data = await api('punchOut', { userId: state.user.id, date: today() });
+    state.records = state.records.map(r => r.date === today() ? { ...r, outTime: data.outTime } : r);
+    toast('打卡下班成功 ✓<br>請勿流連往返❌');
+    render();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function doSubmitMakeup() {
+  const date = document.getElementById('m-date').value;
+  const inTime = document.getElementById('m-in').value;
+  const outTime = document.getElementById('m-out').value;
+  const reason = document.getElementById('m-reason').value.trim();
+  if (!date || !reason) { toast('請填寫日期與原因', 'error'); return; }
+  try {
+    await api('addMakeupRequest', { userId: state.user.id, userName: state.user.name, date, inTime, outTime, reason });
+    toast('補打卡申請已送出');
+    closeModal();
+    const mkp = await api('getMakeupRequests', { userId: state.user.id });
+    state.makeupRequests = mkp.requests || [];
+    render();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function doReview(requestId, action) {
+  try {
+    await api('reviewMakeupRequest', { requestId, action });
+    toast(action === 'approve' ? '已核准補打卡申請' : '已拒絕申請', action === 'approve' ? 'success' : 'error');
+    await reloadHRData();
+    render();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function doAddUser() {
+  const name = document.getElementById('u-name').value.trim();
+  const username = document.getElementById('u-user').value.trim();
+  const password = document.getElementById('u-pass').value;
+  if (!name || !username || !password) { toast('請填寫所有欄位', 'error'); return; }
+  if (password.length < 6) { toast('密碼至少 6 個字元', 'error'); return; }
+  try {
+    await api('addUser', { name, username, password });
+    toast(`已新增 ${name} 的帳號`);
+    closeModal();
+    const usr = await api('getUsers', {});
+    state.users = (usr.users || []).filter(u => u.role === 'intern');
+    render();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function doDeleteUser(userId, name) {
+  if (!confirm(`確定要刪除「${name}」的帳號嗎？\n此操作無法復原。`)) return;
+  try {
+    await api('deleteUser', { userId });
+    toast(`已刪除 ${name} 的帳號`);
+    const usr = await api('getUsers', {});
+    state.users = (usr.users || []).filter(u => u.role === 'intern');
+    render();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function doSetHours() {
+  const hours = parseFloat(document.getElementById('h-hours').value);
+  if (isNaN(hours) || hours < 0) { toast('請輸入有效時數', 'error'); return; }
+  const { userId, userName, month } = state.modalData;
+  try {
+    await api('setHrHours', { userId, userName, month, confirmedHours: hours });
+    toast('確認時數已儲存');
+    closeModal();
+    const hrh = await api('getHrHours', {});
+    state.hrHours = hrh.hrHours || [];
+    render();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function doUpdatePassword() {
+  const newPassword = document.getElementById('p-pass').value;
+  if (!newPassword || newPassword.length < 6) { toast('密碼至少 6 個字元', 'error'); return; }
+  const { userId, userName } = state.modalData;
+  try {
+    await api('updateUserPassword', { userId, newPassword });
+    toast(`${userName} 的密碼已更新`);
+    closeModal();
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function reloadHRData() {
+  try {
+    await loadHRData();
+    render();
+  } catch (e) { toast('重新載入失敗', 'error'); }
+}
+
+// ──────────────────────── Modal helpers ────────────────────────
+function openModal(name, data = {}) {
+  state.modal = name;
+  state.modalData = data;
+  render();
+}
+function closeModal() {
+  state.modal = null;
+  state.modalData = {};
+  render();
+}
+function openEditHours(userId, userName, month) {
+  const hrRow = state.hrHours.find(r => r.userId === userId && r.month === month);
+  openModal('editHours', { userId, userName, month, current: hrRow?.confirmedHours ?? '' });
+}
+function openEditPassword(userId, userName) {
+  openModal('editPassword', { userId, userName });
+}
+
+// ──────────────────────── Tab setters ────────────────────────
+function setInternTab(tab) { state.internTab = tab; render(); }
+function setHrTab(tab) { state.hrTab = tab; render(); }
+
+// ──────────────────────── Excel export ────────────────────────
+function exportExcel() {
+  let filtered = state.records;
+  if (state.filterUserId !== 'all') filtered = filtered.filter(r => r.userId === state.filterUserId);
+  const rows = filtered.map(r => {
+    const hrs = calcHours(r.inTime, r.outTime);
+    const hrRow = state.hrHours.find(h => h.userId === r.userId && h.month === String(r.date).slice(0,7));
+    return {
+      '實習生姓名': r.userName,
+      '日期': r.date,
+      '打卡上班': r.inTime ? fmt(r.inTime) : '',
+      '打卡下班': r.outTime ? fmt(r.outTime) : '',
+      '在辦公室時數': hrs !== null ? hrs.toFixed(1) : '',
+      'HR確認時數': hrRow ? hrRow.confirmedHours : '',
+      '補打卡': (r.isMakeup == 'true' || r.isMakeup === true) ? '是' : '否',
+    };
+  });
+
+  // Simple CSV export (no external lib needed for basic use)
+  const headers = Object.keys(rows[0] || {});
+  const csv = [headers.join(','), ...rows.map(r => headers.map(h => `"${String(r[h] || '').replace(/"/g, '""')}"`).join(','))].join('\n');
+  const bom = '\uFEFF'; // UTF-8 BOM for Excel
+  const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `打卡紀錄_${state.filterMonth}.csv`;
+  a.click();
+  toast('已匯出 CSV（可用 Excel 開啟）');
+}
+
+// ──────────────────────── Main render ────────────────────────
+function render() {
+  const app = document.getElementById('app');
+  if (state.view === 'login') { renderLogin(); return; }
+
+  app.innerHTML = `
+    ${renderTopbar()}
+    <div class="main">
+      ${state.user.role === 'intern' ? renderIntern() : renderHR()}
+    </div>
+    ${renderModal()}
+  `;
+}
+
+// ──────────────────────── Init ────────────────────────
+render();
+</script>
+</body>
+</html>
