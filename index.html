@@ -765,7 +765,7 @@ async function doSubmitMakeup() {
 
 async function doReview(requestId, action) {
   try {
-    await api('reviewMakeupRequest', { requestId, action });
+    await api('reviewMakeupRequest', { requestId, verdict: action });
     toast(action === 'approve' ? '已核准補打卡申請' : '已拒絕申請', action === 'approve' ? 'success' : 'error');
     await reloadHRData();
     render();
