@@ -318,6 +318,7 @@ async function doLogin() {
   if (!username || !password) { errEl.innerHTML = `<div class="alert-info" style="background:var(--red-bg);color:var(--red);margin-bottom:10px">請填寫帳號與密碼</div>`; return; }
   try {
     const data = await api('login', { username, password });
+    state.user = data.user;
     sessionStorage.setItem('punch_user', JSON.stringify(data.user));
     state.view = data.user.role === 'hr' ? 'hr' : 'intern';
     await loadInitialData();
