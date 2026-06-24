@@ -363,7 +363,7 @@ async function loadHRData() {
   ]);
   state.records = (rec.records || []).map(r => ({ ...r, date: normDate(r.date) }));
   state.makeupRequests = (mkp.requests || []).map(normalizeMakeup);
-  state.hrHours = hrh.hrHours || [];
+  state.hrHours = (hrh.hrHours || []).map(r => ({ ...r, month: normDate(r.month).slice(0, 7) }));
   state.users = (usr.users || []).filter(u => u.role === 'intern');
 }
 
