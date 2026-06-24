@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>凱菲實習生打卡❤️</title>
+<title>❤️凱菲實習生好棒❤️</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 /* ── Reset & Base ── */
@@ -271,7 +271,7 @@ function renderLogin() {
         <div class="login-logo">
           <i class="ti ti-clipboard-check" aria-hidden></i>
           <h1>⏰凱菲實習打卡⏰</h1>
-          <p>!!請輸入帳號登入 請準時!!!</p>
+          <p>！！請登入！！請準時！！</p>
         </div>
         ${noApi ? `<div class="setup-banner"><i class="ti ti-alert-triangle" aria-hidden></i><div><strong>尚未設定 API 網址</strong><br>請在 HTML 檔案頂部設定你的 Google Apps Script 網址。<br>詳見 <code>SETUP.md</code> 說明文件。</div></div>` : ''}
         <div id="login-error"></div>
@@ -703,7 +703,7 @@ async function doPunchIn() {
     const data = await api('punchIn', { userId: state.user.id, userName: state.user.name, date: today() });
     state.records = state.records.filter(r => r.date !== today());
     state.records.push({ userId: state.user.id, userName: state.user.name, date: today(), inTime: data.inTime, outTime: null, isMakeup: false });
-    toast('打卡上班成功 ✓<br>上班加加油💪');
+    toast('打卡上班成功<br>上班加加油');
     render();
   } catch (e) { toast(e.message, 'error'); }
 }
@@ -712,7 +712,7 @@ async function doPunchOut() {
   try {
     const data = await api('punchOut', { userId: state.user.id, date: today() });
     state.records = state.records.map(r => r.date === today() ? { ...r, outTime: data.outTime } : r);
-    toast('打卡下班成功 ✓<br>請勿流連往返❌');
+    toast('打卡下班成功<br>請勿流連往返');
     render();
   } catch (e) { toast(e.message, 'error'); }
 }
