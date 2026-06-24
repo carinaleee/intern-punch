@@ -318,7 +318,7 @@ async function doLogin() {
   if (!username || !password) { errEl.innerHTML = `<div class="alert-info" style="background:var(--red-bg);color:var(--red);margin-bottom:10px">請填寫帳號與密碼</div>`; return; }
   try {
     const data = await api('login', { username, password });
-    state.user = data.user;
+    sessionStorage.setItem('punch_user', JSON.stringify(data.user));
     state.view = data.user.role === 'hr' ? 'hr' : 'intern';
     await loadInitialData();
     render();
@@ -328,6 +328,7 @@ async function doLogin() {
 }
 
 function doLogout() {
+  sessionStorage.removeItem('punch_user');
   state.user = null;
   state.view = 'login';
   state.records = [];
@@ -899,7 +900,14 @@ function render() {
 }
 
 // ──────────────────────── Init ────────────────────────
-render();
+const _saved = sessionStorage.getItem('punch_user');
+if (_saved) {
+  state.user = JSON.parse(_saved);
+  state.view = state.user.role === 'hr' ? 'hr' : 'intern';
+  loadInitialData().then(render);
+} else {
+  render();
+}
 </script>
 </body>
 </html>
